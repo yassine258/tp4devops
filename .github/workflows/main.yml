@@ -1,0 +1,38 @@
+name: Terraform Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: Terraform CI/CD
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.14.1 
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        if: success() 
+        run: terraform apply -auto-approve tfplan
+        
+      - name: Validate Deployment
+        if: success()
+        run: |
+          echo "Validation: Vérification des ressources mises à jour"
+          terraform show -json tfplan | jq '.planned_values.root_module.resources[] | {name: .name, type: .type, values: .values}'
+          echo "Si vous voyez vos modifications ici, la validation est réussie."
