@@ -1,14 +1,7 @@
-FROM alpine:latest
+FROM nginx:latest
 
-# Mise à jour et installation du serveur web Nginx
-RUN apk update && \
-apk add nginx && \
-rm -rf /var/cache/apk/*
+# 2. Copier un index.html personnalisé dans le dossier par défaut de Nginx
+RUN echo "Application Deployed via Terraform IaC!" > /usr/share/nginx/html/index.html
 
-# Création d'une page HTML simple comme preuve de déploiement
-RUN echo "<h1>Application Deployed via Terraform IaC!</h1>" > /var/www/localhost/index.html
-
-# Expose le port par défaut de Nginx
+# 3. Exposer le port 80
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
