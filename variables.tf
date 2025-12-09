@@ -7,7 +7,7 @@ variable "db_user" {
 variable "db_password" {
   description = "Password DB"
   type        = string
-  default     = "yassineeE"
+  default     = "yassineeeE"
 }
 
 variable "db_name" {
