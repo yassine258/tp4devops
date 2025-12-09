@@ -34,5 +34,3 @@ jobs:
         if: success()
         run: |
           echo "Validation: Vérification des ressources mises à jour"
-          terraform show -json tfplan | jq '.planned_values.root_module.resources[] | {name: .name, type: .type, values: .values}'
-          echo "Si vous voyez vos modifications ici, la validation est réussie."
